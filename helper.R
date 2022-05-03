@@ -23,6 +23,7 @@ library(ggtree)
 ##########################################################################################
 ################################## 0. Import Data ########################################
 ##########################################################################################
+Rep = 10 # Number of replicates in measurements
 
 ## Trait Value Data
 InputMatrix <- read.csv("Input/RawData.csv") # Import Raw Measurement Data
@@ -32,7 +33,12 @@ Germination = read_xlsx("Input/Germination(sd_se).xlsx") %>%
   mutate(se_Germination = se) %>%
   dplyr::select(Species, mean_Germination, se_Germination)  # Import Germination Data
 
-Rep = 10 # Number of replicates in measurements
+appendix = InputMatrix %>% group_by(Family, Species, Classification) %>% 
+  dplyr::summarise (mean_Area = mean(Area), se_Area = sd(Area)/sqrt(Rep), 
+                    mean_Height = mean(Height), se_Height = sd(Height)/sqrt(Rep),
+                    mean_Mass = mean(Mass), 
+                    se_Mass = sd(Mass/sqrt(Rep))) 
+
 
 dat = InputMatrix %>% group_by(Family, Species, Classification) %>% 
   dplyr::summarise (mean_Area = mean(Area), se_Area = sd(Area)/sqrt(Rep), 

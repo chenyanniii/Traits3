@@ -8,7 +8,7 @@ source("./helper.R")
 ui <- fluidPage(
   #### sidebarLayout(sidebarPanel(),mainPanel())
   pageWithSidebar(
-    headerPanel("Phylogenetic Comparative Methods Interactive Learning"),
+    headerPanel("Interactive Learning of Phylogenetic Comparative Methods"),
     sidebarPanel(
       checkboxGroupInput(
         inputId = "checked_species",
@@ -42,11 +42,17 @@ ui <- fluidPage(
       )
     ),
     mainPanel(
+      p('    This is a shiny application to help user to experience the phylogenetic comparative method. The left hand side allow user to select species. Based on species selection, the display tab will have display related phylogenetic tree, phylogenetic position, phylogenetic signal and model selection results'),
+      p('    Please try multiple combination of species and see differences between results of phylogenetic signal culation, the user could understand the sampling of species is critical for phylogenetic signal estimation for the community'),
       tabsetPanel(
-        tabPanel("Phylogenetic_Tree", plotOutput("Phylogenetic_Tree")),
-        tabPanel("Phylogenetic_Position", plotOutput("Phylogenetic_Position")),
-        tabPanel("Phylogenetic_Signal", tableOutput("Phylogenetic_Signal")),
-        tabPanel("Model_Selection", tableOutput("Model_Selection"))
+        tabPanel("Phylogenetic_Tree", plotOutput("Phylogenetic_Tree"), 
+                 p('Phylogenetic tree of species of selected species, which reflect the evolutionary relationship between species.')),
+        tabPanel("Phylogenetic_Position", plotOutput("Phylogenetic_Position"),
+                 p('Phylogenetic position of selected species, which are calculated based on phylogenetic tree.')),
+        tabPanel("Phylogenetic_Signal", tableOutput("Phylogenetic_Signal"),
+                 p('Phylogenetic signal of traits, which are culated based on phylogenetic tree and trait value of species.')),
+        tabPanel("Model_Selection", tableOutput("Model_Selection"),
+                 p('Complete list of potential germination models are evaluated using Akaike information criterion.'))
       )
     )#mainPanel
     )#pageWithsidebar

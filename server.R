@@ -8,11 +8,15 @@ server <- function(input, output, session) {
   plot_react = reactive({filter(dat, Species %in% input$checked_species)})
   
   
-  ## Display Phylogenetic Tree
+  ## Display Phylogenetic Tree & Trait Value
   output$Phylogenetic_Tree <- renderPlot({
+    
+    ## Phylogenetic Tree
     plot_dat = plot_react()
     tree_species = PruneTree(plot_dat$Species)
+    
     plotTree(tree_species, ftype="i")
+    
     
   })
   
@@ -43,7 +47,10 @@ server <- function(input, output, session) {
     phyloposit_family = ggplot(plot_phyloposit_family, aes(x=phy1, y=phy2, color=Classification)) +
       geom_point() + labs(x="phy1", y="phy2") + 
       geom_text_repel(aes(label = Family), size =3.5) + 
-      theme_bw()
+      scale_color_manual(values=c("#FFC20A", "#64D294", "#C76BA2")) +
+      theme(legend.position = "bottom",
+            panel.background = element_rect(fill = "white", color = 'black'),
+            panel.grid.major = element_line(color = 'grey', linetype = 'dotted'))
     
     phyloposit_family
     
